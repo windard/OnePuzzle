@@ -135,7 +135,7 @@ class Solver(object):
                                     if self.debug:
                                         print("success in {}:{}".format(self.calculated, entities))
 
-                                    result.append(entities)
+                                    result.append(entities.copy())
                                     if not self.get_all:
                                         return entities
 
@@ -172,6 +172,7 @@ class Solver(object):
         if self.get_all:
             print("groups number:{}".format(len(result)))
             print("all success group:{}".format(result))
+            success_entities = result[-1]
 
         for success in success_entities:
             board.add_entity(success)
