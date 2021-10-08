@@ -22,9 +22,10 @@ $ one_puzzle -h
 Usage: one_puzzle [OPTIONS] MONTH DAY
 
 Options:
-  -h, --help           Show this message and exit.
-  -d, --debug BOOLEAN  show debug message.
-  -a, --all BOOLEAN    get all result.
+  -h, --help   Show this message and exit.
+  -d, --debug  show debug message.
+  -a, --all    get all result.
+  -n, --nox    no screen show.
 ```
 
 ## example
