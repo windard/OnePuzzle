@@ -17,7 +17,7 @@ class Block(object):
             self.col = int(col)
 
     def __repr__(self):
-        return "<Block/{}-{}>".format(self.row, self.col)
+        return "Block({}, {})".format(self.row, self.col)
 
     __str__ = __repr__
 

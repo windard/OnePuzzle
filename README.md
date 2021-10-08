@@ -2,6 +2,7 @@
 
 [![Build Status](https://img.shields.io/travis/windard/OnePuzzle)](https://travis-ci.com/github/windard/OnePuzzle)
 [![Total Lines](https://img.shields.io/tokei/lines/github/windard/OnePuzzle)](https://github.com/windard/OnePuzzle)
+[![codecov](https://codecov.io/gh/windard/OnePuzzle/branch/master/graph/badge.svg?token=JKFqVmzvLm)](https://codecov.io/gh/windard/OnePuzzle)
 [![MIT](https://img.shields.io/github/license/windard/OnePuzzle)](https://github.com/windard/OnePuzzle/blob/master/LICENSE)
 [![PyPI](https://img.shields.io/pypi/v/OnePuzzle)](https://pypi.org/project/OnePuzzle/)
 [![Author](https://img.shields.io/badge/author-windard-359BE1)](https://windard.com)
