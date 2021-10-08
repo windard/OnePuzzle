@@ -9,9 +9,10 @@ before_install:
   - pip install -U pip
   - pip install -U pytest
   - pip install codecov
+  - pip install pytest-cov
   - pip install -r requirements.txt
 install:
   - pip install ".[test]" . # install package + test dependencies
-script: pytest # run tests
+script: pytest --cov-report term -v tests/ --cov=one_puzzle # run tests
 after_success:
   - codecov # submit coverage
