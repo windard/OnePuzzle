@@ -79,9 +79,11 @@ class Board(object):
         for block in pattern.blocks:
             self.draw_block(block.col, block.row, pattern.color)
 
-    def show(self, pattern=None):
-        self.draw_months()
-        self.draw_days()
+    def show(self, pattern=None, skip_blocks=False):
+        if not skip_blocks:
+            self.draw_months()
+            self.draw_days()
+
         if pattern:
             self.draw_pattern(pattern)
 

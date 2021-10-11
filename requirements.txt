@@ -2,7 +2,6 @@ attrs==21.2.0
 click==8.0.1
 coverage==6.0.1
 iniconfig==1.1.1
-OnePuzzle==0.1.0
 packaging==21.0
 pluggy==1.0.0
 py==1.10.0

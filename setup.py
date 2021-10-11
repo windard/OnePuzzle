@@ -3,7 +3,7 @@
 import setuptools
 from setuptools import setup
 
-from one_puzzle import __version__
+from one_puzzle import __version__, __name__
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
@@ -14,7 +14,7 @@ entry_points = {
 }
 
 setup(
-    name='OnePuzzle',
+    name=__name__,
     version=__version__,
     author='Windard Yang',
     author_email='windard@qq.com',

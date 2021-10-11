@@ -31,3 +31,9 @@ Options:
 ## example
 
 ![](https://windard-blog.oss-cn-beijing.aliyuncs.com/uTools_1633677947082.png)
+
+## changelog
+
+- 0.1.0: 功能基本完成
+- 0.1.1: 小的修复升级
+- 0.2.0: 减少遍历次数，加快解密时间
