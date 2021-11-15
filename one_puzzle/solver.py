@@ -103,7 +103,7 @@ class Solver(object):
                                 result[entity_class].add(tuple(sorted(entity.blocks, key=Block.__hash__)))
         return result
 
-    def faster_solve(self, nox=False):
+    def faster_solve(self, nox=False, urandom=False):
         board = Board(nox=nox)
 
         month_block = board.months[self.month - 1]
@@ -125,7 +125,12 @@ class Solver(object):
 
             self.calculated += 1
 
-            entity_class = list(available_entity_blocks.keys())[0]
+            entity_keys = list(available_entity_blocks.keys())
+            if urandom:
+                entity_class = random.choice(entity_keys)
+            else:
+                entity_class = entity_keys.pop()
+
             entity_class_groups = available_entity_blocks[entity_class]
 
             for entity_class_group in entity_class_groups:
@@ -197,6 +202,7 @@ class Solver(object):
 @click.option('-d', '--debug', is_flag=True, default=False, help='show debug message.')
 @click.option('-a', '--all', 'get_all', is_flag=True, default=False, help='get all result.')
 @click.option('-n', '--nox', is_flag=True, default=False, help='no screen show.')
-def main(month, day, debug=False, get_all=False, nox=False):
+@click.option('-r', '-u', '--urandom', is_flag=True, default=False, help='random calculate.')
+def main(month, day, debug=False, get_all=False, nox=False, urandom=False):
     solver = Solver(month, day, debug, get_all)
-    solver.faster_solve(nox)
+    solver.faster_solve(nox, urandom)
