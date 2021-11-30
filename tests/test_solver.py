@@ -28,19 +28,3 @@ class TestSolver(object):
         assert available_entities[FullSmashEntity] == {
             (Block(1, 1), Block(1, 2), Block(1, 3), Block(2, 1), Block(2, 2), Block(2, 3))
         }
-
-    def test_solve(self, capsys):
-        Solver(11, 30, nox=True).multi_solve()
-
-        captured = capsys.readouterr()
-        assert (
-            captured.out
-            == """ &  *  *  *  $  $    
- &  %  %  *     $    
- &  &  %  *  +  $  $ 
- &  %  %  ^  +  @  @ 
- #  #  ^  ^  +  @  @ 
- #  #  ^  +  +  @  @ 
- #     ^             
-"""
-        )
