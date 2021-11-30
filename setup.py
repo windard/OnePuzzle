@@ -23,7 +23,7 @@ setup(
     long_description_content_type="text/markdown",
     url='https://github.com/windard/OnePuzzle',
     packages=setuptools.find_packages(),
-    install_requires=['PyQt5==5.15.4', 'click==8.0.1'],
+    install_requires=['PyQt5==5.15.4', 'click==8.0.1', 'rich==10.14.0'],
     license="MIT",
     keywords=['puzzle'],
     entry_points=entry_points,

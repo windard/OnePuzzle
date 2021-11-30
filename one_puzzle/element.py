@@ -3,18 +3,22 @@
 MONTH_COLOR = "#c1c1c1"
 DAY_COLOR = "#c6c6c6"
 TARGET_COLOR = "#212121"
+CALENDAR_PUZZLE_COLUMN = 7
 
 
 class Block(object):
     row = 1
     col = 1
 
-    def __init__(self, row=None, col=None):
+    def __init__(self, row=None, col=None, entity=None, index=None):
         if row:
             self.row = int(row)
 
         if col:
             self.col = int(col)
+
+        self.entity = entity
+        self.index = index
 
     def __repr__(self):
         return "Block({}, {})".format(self.row, self.col)
@@ -86,3 +90,9 @@ class NOV(Block):
 class DEC(Block):
     row = 2
     col = 6
+
+
+total_months = [JAN(), FEB(), MAR(), APR(), MAY(), JUN(), JUL(), AUG(), SEP(), OCT(), NOV(), DEC()]
+total_days = [
+    Block(3 + (i // CALENDAR_PUZZLE_COLUMN), 1 + (i % CALENDAR_PUZZLE_COLUMN), index=i + 1) for i in range(31)
+]

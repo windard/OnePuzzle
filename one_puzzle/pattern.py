@@ -1,107 +1,13 @@
 # -*- coding: utf-8 -*-
-import sys
 from operator import add, sub
 
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QFont
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel
-
-from one_puzzle import __name__
-from one_puzzle.element import (
-    JAN,
-    FEB,
-    MAR,
-    MAY,
-    APR,
-    JUN,
-    JUL,
-    AUG,
-    SEP,
-    OCT,
-    NOV,
-    DEC,
-    Block,
-    MONTH_COLOR,
-    DAY_COLOR,
-)
-
-
-class Board(object):
-    def __init__(self, width=600, height=600, nox=False):
-        self.width = width
-        self.height = height
-        self.column = 7
-        self.nox = nox
-        if not self.nox:
-            self.app = QApplication(sys.argv)
-            self.widget = QWidget()
-            self.widget.setWindowTitle(__name__)
-            self.widget.resize(width, height)
-
-        self.block_width = 0.95 * (width / self.column)
-        self.block_interval = 0.05 * width / (self.column + 1)
-
-        self.months = [JAN(), FEB(), MAR(), APR(), MAY(), JUN(), JUL(), AUG(), SEP(), OCT(), NOV(), DEC()]
-        self.days = [Block(3 + i // self.column, 1 + i % self.column) for i in range(31)]
-        self.entities = []
-
-    def draw_block(self, column_num, row_num, color="cyan", text=None):
-        if self.nox:
-            return
-
-        w = QWidget(self.widget)
-        w.setGeometry(
-            int(column_num * self.block_interval + (column_num - 1) * self.block_width),
-            int(row_num * self.block_interval + (row_num - 1) * self.block_width),
-            int(self.block_width),
-            int(self.block_width),
-        )
-
-        w.setStyleSheet('background-color:{}'.format(color))
-        if text:
-            text_label = QLabel(w)
-            text_label.setStyleSheet('color:#ffffff')
-            text_label.setText(text)
-            text_label.setAlignment(Qt.AlignCenter)
-            text_label.setFont(QFont('', 24))
-            text_label.resize(self.block_width, self.block_width)
-
-    def draw_months(self):
-        for month in self.months:  # type: Block
-            self.draw_block(month.col, month.row, MONTH_COLOR)
-
-    def draw_days(self):
-        for day in self.days:  # type: Block
-            self.draw_block(day.col, day.row, DAY_COLOR)
-
-    def draw_pattern(self, pattern):
-        # type: (OperateEntity) -> ()
-        for block in pattern.blocks:
-            self.draw_block(block.col, block.row, pattern.color)
-
-    def show(self, pattern=None, skip_blocks=False):
-        if not skip_blocks:
-            self.draw_months()
-            self.draw_days()
-
-        if pattern:
-            self.draw_pattern(pattern)
-
-        for entity in self.entities:
-            self.draw_pattern(entity)
-
-        if not self.nox:
-            self.widget.show()
-            self.app.exec_()
-
-    def add_entity(self, entity):
-        # type: (OperateEntity)->()
-        self.entities.append(entity)
+from one_puzzle.element import Block
 
 
 # 每个图案有八种形态，上下左右
 # 旋转90度之后，上下左右
 class OperateEntity(object):
+    icon = "#"
     color = "#ffecb3"
     # 水平线
     horizontal_line = 0.5
@@ -135,7 +41,7 @@ class OperateEntity(object):
 
     @property
     def blocks(self):
-        return [Block(x(self.horizontal_line), y(self.vertical_line)) for x, y in self.operates]
+        return [Block(x(self.horizontal_line), y(self.vertical_line), self) for x, y in self.operates]
 
     def __repr__(self):
         base = "{}({}, {})".format(self.__class__.__name__, self.col_offset, self.row_offset)
@@ -157,6 +63,7 @@ class OperateEntity(object):
 
 # 大 L
 class BigLEntity(OperateEntity):
+    icon = "+"
     # 水平线
     horizontal_line = 2.5
     # 垂直线
@@ -177,6 +84,7 @@ class BigLEntity(OperateEntity):
 
 # 满方块
 class FullSmashEntity(OperateEntity):
+    icon = "@"
     color = "#e65100"
     # 水平线
     horizontal_line = 1.5
@@ -198,6 +106,7 @@ class FullSmashEntity(OperateEntity):
 
 # 缺口方块
 class LackSmashEntity(FullSmashEntity):
+    icon = "#"
     color = "#2e7d32"
 
     def __init__(self, *args, **kwargs):
@@ -207,6 +116,7 @@ class LackSmashEntity(FullSmashEntity):
 
 # 大 Z
 class BigZEntity(OperateEntity):
+    icon = "$"
     color = "#c94ed1"
     # 水平线
     horizontal_line = 2
@@ -227,6 +137,7 @@ class BigZEntity(OperateEntity):
 
 # 凹
 class SunkenEntity(OperateEntity):
+    icon = "%"
     color = "#536dfe"
     # 水平线
     horizontal_line = 1.5
@@ -247,6 +158,7 @@ class SunkenEntity(OperateEntity):
 
 # 凸
 class ConvexEntity(OperateEntity):
+    icon = "&"
     color = "#00897b"
     # 水平线
     horizontal_line = 1.5
@@ -267,6 +179,7 @@ class ConvexEntity(OperateEntity):
 
 # 等边L
 class EquilateralLEntity(OperateEntity):
+    icon = "*"
     color = "#1976d2"
     # 水平线
     horizontal_line = 2
@@ -286,6 +199,7 @@ class EquilateralLEntity(OperateEntity):
 
 # 剑，闪电
 class StilettoEntity(OperateEntity):
+    icon = "^"
     color = "#6200ea"
     # 水平线
     horizontal_line = 2.5
@@ -302,3 +216,15 @@ class StilettoEntity(OperateEntity):
             [lambda x: self.horizontal_add(x, 0.5), lambda y: self.vertical_add(y, 0.5)],
             [lambda x: self.horizontal_add(x, 1.5), lambda y: self.vertical_add(y, 0.5)],
         ]
+
+
+total_entity_classes = [
+    BigLEntity,
+    BigZEntity,
+    LackSmashEntity,
+    FullSmashEntity,
+    EquilateralLEntity,
+    StilettoEntity,
+    ConvexEntity,
+    SunkenEntity,
+]
