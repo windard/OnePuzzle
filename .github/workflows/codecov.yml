@@ -1,0 +1,35 @@
+name: Workflow for Codecov
+on: [push]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.8
+    - name: Install dependencies
+      run: |
+        sudo apt install -y xvfb x11-utils libxkbcommon-x11-0
+        python -m pip install --upgrade pip
+        pip install pyside2 pytest coverage pytest-qt
+    - name: Install dependencies
+      run: |
+        pip install pytest 
+        pip install pytest-cov
+        pip install pytest-qt
+        pip install black
+        sudo apt update
+        sudo apt install -y xvfb x11-utils libxkbcommon-x11-0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-randr0 libxcb-render-util0
+        sudo apt install -y libxkbcommon-x11-0 libxcb-xinerama0 x11-utils  pyqt5-dev-tools
+        pip install -r requirements.txt
+    - name: Generate coverage report
+      env:
+        QT_DEBUG_PLUGINS: 1
+      run: |
+        black --check . --target-version py37 --diff --line-length 120 --skip-string-normalization
+        QT_DEBUG_PLUGINS=1 DISPLAY=:0.0 pytest -vv --cov=one_puzzle --cov-report=xml
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v2
