@@ -166,8 +166,8 @@ class Solver(object):
                     # 有成功
                     if self.debug:
                         print(
-                            "success in {:7}:{}".format(
-                                calculated, datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                            "{:3} Times success in {:7}:{}".format(
+                                len(result) + 1, calculated, datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                             )
                         )
 
